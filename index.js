@@ -23,6 +23,7 @@ fs.createReadStream("bolsistas.csv")
   .on("data", (row) => {
     //console.log(data.length)
     data.push(row);
+    
   })
   .on("end", (rowCount) => {
     //console.log(rowCount);
@@ -36,13 +37,18 @@ fs.createReadStream("bolsistas.csv")
     + '\nValor da bolsa: ' + result.CD_MOEDA + result.VL_BOLSISTA_PAGAMENTO);
 
     rl.question('\nDigite o nome do bolsista: ', (bolsista_nome) => {
-
-        const result_nome = data.find(nome => nome.NM_BOLSISTA == bolsista_nome)
+        const result_nome = bolsista_nome.toUpperCase();
+      //validar com includes para condição if else para tratar pesquisa sobre primeiro nome apenas
+        try{
+          for(var i = 0; i<= data.length; i++){
+            if(result_nome == data[i].NM_BOLSISTA)
+                return console.log(`achou o ${result_nome}`)
+          }
+        }catch(e){
+          console.log("bateu em excessao aqui")
+        }
 
         //ESCREVER CODIFICAÇÃO DO NOME E VER A PARTE DA ACENTUAÇÃO
-
-        console.log('\nNome: ' + result_nome.NM_BOLSISTA + '\nAno: ' + result_nome.AN_REFERENCIA + '\nEntidade de Ensino: ' + result_nome.NM_ENTIDADE_ENSINO
-    + '\nValor da bolsa: ' + result_nome.CD_MOEDA + result_nome.VL_BOLSISTA_PAGAMENTO);
 
         rl.question('\nInforme o ano de consulta para a média dos valores: ', (media_ano) => {
 

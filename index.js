@@ -5,6 +5,19 @@ var readline = require('readline');
 var rl = readline.createInterface(
 	process.stdin, process.stdout);
 
+
+String.prototype.shuffle = function () {
+  var a = this.split(""),
+      n = a.length;
+
+  for(var i = n - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+  }
+  return a.join("");
+}
 const options = {
     objectMode: true,
     delimiter: ";",
@@ -36,13 +49,13 @@ fs.createReadStream("bolsistas.csv")
     console.log('\nNome: ' + result.NM_BOLSISTA + '\nCPF: ' + result.CPF_BOLSISTA + '\nEntidade de Ensino: ' + result.NM_ENTIDADE_ENSINO
     + '\nValor da bolsa: ' + result.CD_MOEDA + result.VL_BOLSISTA_PAGAMENTO);
 
-    rl.question('\nDigite o nome do bolsista: ', (bolsista_nome) => {
+    rl.question('\nDigite o nome completo do bolsista: ', (bolsista_nome) => {
         const result_nome = bolsista_nome.toUpperCase();
       //validar com includes para condição if else para tratar pesquisa sobre primeiro nome apenas
         try{
           for(var i = 0; i<= data.length; i++){
             if(result_nome == data[i].NM_BOLSISTA)
-                return console.log(`achou o ${result_nome}`)
+                return console.log(`achou o ${result_nome}`)              
           }
         }catch(e){
           console.log("bateu em excessao aqui")
